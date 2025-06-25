@@ -23,3 +23,53 @@ const itemData = {
         score: 36
     }
 };
+
+document.addEventListener("DOMContentLoaded", () => {
+    const select = document.getElementById("items");
+    const img = document.getElementById("displayImage");
+    const photographer = document.getElementById("photographer");
+    const description = document.getElementById("description");
+    const score = document.getElementById("score");
+    const btnUp = document.getElementById("increaseScore");
+    const btnDown = document.getElementById("decreaseScore");
+
+    // Llenar el select con los nombres de los ítems
+    Object.entries(itemData).forEach(([key, item], idx) => {
+        const option = document.createElement("option");
+        option.value = key;
+        option.textContent = item.name;
+        select.appendChild(option);
+    });
+
+    let currentKey = null;
+
+    // Mostrar datos al seleccionar un ítem
+    select.addEventListener("change", (e) => {
+        const key = e.target.value;
+        if (!itemData[key]){
+            return;
+        } 
+        currentKey = key;
+        const item = itemData[key];
+        img.src = item.image;
+        photographer.value = item.photographer;
+        description.value = item.description;
+        score.value = item.score;
+    });
+
+    // Botón +1
+    btnUp.addEventListener("click", () => {
+        if (!currentKey){
+            return;
+        }
+        itemData[currentKey].score++;
+        score.value = itemData[currentKey].score;
+    });
+
+    // Botón -1
+    btnDown.addEventListener("click", () => {
+        if (!currentKey) return;
+        itemData[currentKey].score--;
+        score.value = itemData[currentKey].score;
+    });
+});
